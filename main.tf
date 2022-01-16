@@ -220,7 +220,7 @@ resource "aws_cloudwatch_metric_alarm" "service_queue_high" {
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = var.high_eval_periods
   threshold           = var.high_threshold
-  alarm_actions       = [aws_appautoscaling_policy.scale_up.arn]
+  alarm_actions       = [aws_appautoscaling_policy.scale_up[0].arn]
 
   #  namespace           = "AWS/SQS"
   #  period              = "60"
@@ -244,7 +244,7 @@ resource "aws_cloudwatch_metric_alarm" "service_queue_high" {
 
       #      unit        = "Count"
 
-      dimensions {
+      dimensions = {
         QueueName = var.queue_name
       }
     }
@@ -260,7 +260,7 @@ resource "aws_cloudwatch_metric_alarm" "service_queue_high" {
 
       #  unit        = "Count"
 
-      dimensions {
+      dimensions = {
         QueueName = var.queue_name
       }
     }
@@ -277,7 +277,7 @@ resource "aws_cloudwatch_metric_alarm" "service_queue_big_high" {
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = var.high_eval_periods
   threshold           = var.high_big_threshold
-  alarm_actions       = [aws_appautoscaling_policy.scale_big_up.arn]
+  alarm_actions       = [aws_appautoscaling_policy.scale_big_up[0].arn]
 
   #  namespace           = "AWS/SQS"
   #  period              = "60"
@@ -301,7 +301,7 @@ resource "aws_cloudwatch_metric_alarm" "service_queue_big_high" {
 
       #      unit        = "Count"
 
-      dimensions {
+      dimensions = {
         QueueName = var.queue_name
       }
     }
@@ -317,7 +317,7 @@ resource "aws_cloudwatch_metric_alarm" "service_queue_big_high" {
 
       #  unit        = "Count"
 
-      dimensions {
+      dimensions = {
         QueueName = var.queue_name
       }
     }
@@ -335,7 +335,7 @@ resource "aws_cloudwatch_metric_alarm" "service_queue_low" {
   comparison_operator = "LessThanOrEqualToThreshold"
   evaluation_periods  = var.low_eval_periods
   threshold           = var.low_threshold
-  alarm_actions       = [aws_appautoscaling_policy.scale_down.arn]
+  alarm_actions       = [aws_appautoscaling_policy.scale_down[0].arn]
 
   metric_query {
     id          = "e1"
@@ -355,7 +355,7 @@ resource "aws_cloudwatch_metric_alarm" "service_queue_low" {
 
       #  unit        = "Count"
 
-      dimensions {
+      dimensions = {
         QueueName = var.queue_name
       }
     }
@@ -372,7 +372,7 @@ resource "aws_cloudwatch_metric_alarm" "service_queue_low" {
 
       #  unit        = "Count"
 
-      dimensions {
+      dimensions = {
         QueueName = var.queue_name
       }
     }
@@ -392,7 +392,7 @@ resource "aws_cloudwatch_metric_alarm" "queue_up" {
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = var.high_eval_periods
   threshold           = var.queue_up_threshold
-  alarm_actions       = [aws_appautoscaling_policy.scale_queuetime_up.arn]
+  alarm_actions       = [aws_appautoscaling_policy.scale_queuetime_up[0].arn]
   metric_query {
     id          = "queuetime"
     expression  = "((visible + (taskcount * ${var.queue_task_worker_count})) * ${var.queue_worker_timing}) / (IF(taskcount==0, 1, taskcount) * ${var.queue_task_worker_count})"
@@ -408,7 +408,7 @@ resource "aws_cloudwatch_metric_alarm" "queue_up" {
       period      = "60"
       stat        = "Maximum"
 
-      dimensions {
+      dimensions = {
         QueueName = var.queue_name
       }
     }
@@ -423,7 +423,7 @@ resource "aws_cloudwatch_metric_alarm" "queue_up" {
       period      = "60"
       stat        = "Maximum"
 
-      dimensions {
+      dimensions = {
         QueueName = "${var.queue_name}"
       }
     }
@@ -438,7 +438,7 @@ resource "aws_cloudwatch_metric_alarm" "queue_up" {
       period      = "60"
       stat        = "Maximum"
 
-      dimensions {
+      dimensions = {
         ClusterName = var.cluster_name
         ServiceName = var.service_name
       }
@@ -459,7 +459,7 @@ resource "aws_cloudwatch_metric_alarm" "queue_down" {
   comparison_operator = "LessThanOrEqualToThreshold"
   evaluation_periods  = var.low_eval_periods
   threshold           = var.queue_down_threshold
-  alarm_actions       = [aws_appautoscaling_policy.scale_queuetime_down.arn]
+  alarm_actions       = [aws_appautoscaling_policy.scale_queuetime_down[0].arn]
   metric_query {
     id          = "queuetime"
     expression  = "((visible + (taskcount * ${var.queue_task_worker_count})) * ${var.queue_worker_timing}) / (IF(taskcount==0, 1, taskcount) * ${var.queue_task_worker_count})"
@@ -475,7 +475,7 @@ resource "aws_cloudwatch_metric_alarm" "queue_down" {
       period      = "60"
       stat        = "Maximum"
 
-      dimensions {
+      dimensions = {
         QueueName = var.queue_name
       }
     }
@@ -490,7 +490,7 @@ resource "aws_cloudwatch_metric_alarm" "queue_down" {
       period      = "60"
       stat        = "Maximum"
 
-      dimensions {
+      dimensions = {
         QueueName = "${var.queue_name}"
       }
     }
@@ -505,7 +505,7 @@ resource "aws_cloudwatch_metric_alarm" "queue_down" {
       period      = "60"
       stat        = "Maximum"
 
-      dimensions {
+      dimensions = {
         ClusterName = var.cluster_name
         ServiceName = var.service_name
       }
